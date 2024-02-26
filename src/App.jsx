@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/authContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Nav from './components/Nav';
@@ -19,10 +19,25 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/posts/new' element={<NewBlogPost />} />
         <Route path='/posts/:postID' element={<BlogPost />} />
-        <Route path='/posts/:postID/edit' element={<EditBlogPost />} />
-        <Route path='*' element={<NotFound />} />
+        <Route
+          path='/posts/new'
+          element={
+            <ProtectedRoute>
+              <NewBlogPost />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/posts/:postID/edit'
+          element={
+            <ProtectedRoute>
+              <EditBlogPost />
+            </ProtectedRoute>
+          }
+        />
+        <Route path='/404' element={<NotFound />} />
+        <Route path='*' element={<Navigate to='/404' replace />} />
       </Routes>
     </AuthProvider>
   );
