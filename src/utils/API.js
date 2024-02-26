@@ -17,6 +17,7 @@ export async function registerUser(registerData) {
 
 export async function fetchAllBlogPosts() {
   const res = await axios.get(`${API_URL}/posts`);
+  console.log(res.data);
   return res.data;
 }
 

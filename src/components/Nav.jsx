@@ -22,10 +22,10 @@ export default function Nav() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Box>
+    <Box zIndex='1'>
       <Flex
         bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
+        color={useColorModeValue('gray.900', 'gray.200')}
         minH={'60px'}
         py={{ base: 2 }}
         px={{ base: 4 }}
@@ -53,7 +53,7 @@ export default function Nav() {
           <Text
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}
+            color={useColorModeValue('gray.800', 'gray.200')}
           >
             Nogi Blog
           </Text>
