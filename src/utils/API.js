@@ -5,8 +5,13 @@ function getUserData() {
   return JSON.parse(localStorage.getItem('user'));
 }
 
-export async function authUser(credentials) {
-  const res = await axios.post(`${API_URL}/login`, credentials);
+export async function loginUser(loginData) {
+  const res = await axios.post(`${API_URL}/login`, loginData);
+  return res.data;
+}
+
+export async function registerUser(registerData) {
+  const res = await axios.post(`${API_URL}/register`, registerData);
   return res.data;
 }
 
