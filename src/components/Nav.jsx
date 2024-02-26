@@ -7,21 +7,15 @@ import {
   Stack,
   Collapse,
   Icon,
-  Popover,
-  PopoverTrigger,
+  Link,
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
   useColorMode,
 } from '@chakra-ui/react';
-import {
-  HamburgerIcon,
-  CloseIcon,
-  ChevronDownIcon,
-  MoonIcon,
-  SunIcon,
-} from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { PiFlowerLotus } from 'react-icons/pi';
+import { NavLink } from 'react-router-dom';
 
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();
@@ -79,22 +73,22 @@ export default function Nav() {
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
           <Button
-            as={'a'}
+            as={NavLink}
             fontSize={'sm'}
             fontWeight={400}
             variant={'link'}
-            href={'#'}
+            to={'/login'}
           >
             Sign In
           </Button>
           <Button
-            as={'a'}
+            as={NavLink}
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize={'sm'}
             fontWeight={600}
             color={'white'}
             bg={'blue.500'}
-            href={'#'}
+            to={'/register'}
             _hover={{
               bg: 'blue.300',
             }}
@@ -119,10 +113,10 @@ const DesktopNav = () => {
     <Stack direction={'row'} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
-          <Box
-            as='a'
+          <Link
+            as={NavLink}
             p={2}
-            href={navItem.href}
+            to={navItem.href}
             fontSize={'sm'}
             fontWeight={500}
             color={linkColor}
@@ -132,7 +126,7 @@ const DesktopNav = () => {
             }}
           >
             {navItem.label}
-          </Box>
+          </Link>
         </Box>
       ))}
     </Stack>
@@ -180,11 +174,11 @@ const MobileNavItem = ({ label, href }) => {
 const NAV_ITEMS = [
   {
     label: 'Home',
-    href: '#',
+    href: '/',
   },
   {
     label: 'Write',
-    href: '#',
+    href: '/posts/new',
   },
   {
     label: 'Edit',
