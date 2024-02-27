@@ -9,10 +9,14 @@ import {
   useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaGithub } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Hero() {
+  const { isAuth } = useContext(AuthContext);
+
   return (
     <Stack minH='40vh' direction={{ base: 'column', md: 'row' }}>
       <Flex
@@ -56,18 +60,20 @@ export default function Hero() {
             my life&apos;s adventures, musings, and reflections.
           </Text>
           <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>
-            <Button
-              as={Link}
-              to='/register'
-              rounded={'full'}
-              bg={'blue.500'}
-              color={'white'}
-              _hover={{
-                bg: 'blue.300',
-              }}
-            >
-              Sign Up
-            </Button>
+            {!isAuth && (
+              <Button
+                as={Link}
+                to='/register'
+                rounded={'full'}
+                bg={'blue.500'}
+                color={'white'}
+                _hover={{
+                  bg: 'blue.300',
+                }}
+              >
+                Sign Up
+              </Button>
+            )}
             <Button as='a' href='https://github.com/Nogiback' rounded={'full'}>
               <Icon as={FaGithub} h={4} w={4} />
               <Text as='span' ml={1}>

@@ -72,7 +72,7 @@ export default function Nav() {
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
           direction={'row'}
-          spacing={6}
+          spacing={{ base: '2', md: '6' }}
         >
           <Button onClick={toggleColorMode}>
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
@@ -89,8 +89,7 @@ export default function Nav() {
                   isClosable: true,
                 });
               }}
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize={'sm'}
+              fontSize={{ base: 'xs', md: 'sm' }}
               fontWeight={600}
               color={'white'}
               bg={'blue.500'}
