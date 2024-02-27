@@ -5,9 +5,9 @@ import { loginUser, registerUser } from '../utils/API';
 export const AuthContext = createContext();
 
 function useAuth() {
-  const nav = useNavigate();
   const user = localStorage.getItem('user');
   const [isAuth, setIsAuth] = useState(user ? true : false);
+  const nav = useNavigate();
 
   async function register(registerData) {
     try {

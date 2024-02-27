@@ -1,5 +1,4 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Nav from './components/Nav';
 
@@ -13,7 +12,7 @@ import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <AuthProvider>
+    <>
       <Nav />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -39,7 +38,7 @@ function App() {
         <Route path='/404' element={<NotFound />} />
         <Route path='*' element={<Navigate to='/404' replace />} />
       </Routes>
-    </AuthProvider>
+    </>
   );
 }
 
