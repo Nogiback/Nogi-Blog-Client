@@ -1,37 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { Box, SimpleGrid, Container } from '@chakra-ui/react';
 import Hero from '../components/Hero';
 import BlogCard from '../components/BlogCard';
-import { AuthContext } from '../context/authContext';
+import Loading from '../components/Loading';
+import { AuthContext } from '../context/AuthContext';
 import { fetchAllBlogPosts } from '../utils/API';
-
-const dataList = [
-  {
-    id: 1,
-    title: 'Rails ActiveAdmin',
-    authorName: 'Ali',
-    content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-  },
-  {
-    id: 2,
-    title: 'Rails ActiveAdmin',
-    authorName: 'Ali',
-    content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-  },
-  {
-    id: 3,
-    title: 'Rails ActiveAdmin',
-    authorName: 'Ali',
-    content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-  },
-  {
-    id: 4,
-    title: 'Rails ActiveAdmin',
-    authorName: 'Ali',
-    content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-  },
-];
 
 export default function Home() {
   const [blogPosts, setBlogPosts] = useState(null);
@@ -58,7 +31,7 @@ export default function Home() {
   return (
     <Box>
       <Hero />
-      {isLoading && <p>Loading posts...</p>}
+      {isLoading && <Loading />}
       {error && <p>{error}</p>}
       {blogPosts && (
         <Container

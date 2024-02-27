@@ -5,7 +5,7 @@ import { loginUser, registerUser } from '../utils/API';
 export const AuthContext = createContext();
 
 function useAuth() {
-  const navigate = useNavigate();
+  const nav = useNavigate();
   const user = localStorage.getItem('user');
   const [isAuth, setIsAuth] = useState(user ? true : false);
 
@@ -31,10 +31,10 @@ function useAuth() {
     }
   }
 
-  async function logout() {
+  function logout() {
     localStorage.removeItem('user');
     setIsAuth(false);
-    navigate('/');
+    nav('/');
   }
 
   return { isAuth, register, login, logout };

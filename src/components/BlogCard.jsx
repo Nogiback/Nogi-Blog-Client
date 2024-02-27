@@ -43,7 +43,7 @@ export default function BlogCard({ post }) {
         >
           <Image src={`${post.image}`} alt='Blog image' />
           <Box p={{ base: 4, lg: 6 }}>
-            <Box d='flex' alignItems='baseline'>
+            <Box d='flex' alignItems='baseline' mb='2'>
               <Box
                 fontWeight='semibold'
                 as='h2'
