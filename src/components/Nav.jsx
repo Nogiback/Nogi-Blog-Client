@@ -12,14 +12,19 @@ import {
   useBreakpointValue,
   useDisclosure,
   useColorMode,
+  useToast,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { PiFlowerLotus } from 'react-icons/pi';
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { isAuth, logout } = useContext(AuthContext);
+  const toast = useToast();
 
   return (
     <Box zIndex='1'>
@@ -72,29 +77,56 @@ export default function Nav() {
           <Button onClick={toggleColorMode}>
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
-          <Button
-            as={NavLink}
-            fontSize={'sm'}
-            fontWeight={400}
-            variant={'link'}
-            to={'/login'}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={NavLink}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'white'}
-            bg={'blue.500'}
-            to={'/register'}
-            _hover={{
-              bg: 'blue.300',
-            }}
-          >
-            Sign Up
-          </Button>
+          {isAuth ? (
+            <Button
+              onClick={() => {
+                logout();
+                toast({
+                  title: 'Goodbye!',
+                  description: 'You have successfully logged out.',
+                  status: 'success',
+                  duration: 9000,
+                  isClosable: true,
+                });
+              }}
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize={'sm'}
+              fontWeight={600}
+              color={'white'}
+              bg={'blue.500'}
+              _hover={{
+                bg: 'blue.300',
+              }}
+            >
+              Logout
+            </Button>
+          ) : (
+            <>
+              <Button
+                as={NavLink}
+                fontSize={'sm'}
+                fontWeight={400}
+                variant={'link'}
+                to={'/login'}
+              >
+                Sign In
+              </Button>
+              <Button
+                as={NavLink}
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={'blue.500'}
+                to={'/register'}
+                _hover={{
+                  bg: 'blue.300',
+                }}
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
         </Stack>
       </Flex>
 

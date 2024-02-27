@@ -15,13 +15,14 @@ import {
   Text,
   Link,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 
 export default function Login() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
   const { login } = useContext(AuthContext);
   const nav = useNavigate();
+  const toast = useToast();
 
   function handleFormChange(e) {
     const { name, value } = e.target;
@@ -31,14 +32,33 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
+      console.log(formData);
       await login(formData);
-      setError(null);
+      toast({
+        title: 'Success!',
+        description: 'You have successfully logged in.',
+        status: 'success',
+        duration: '8000',
+        isClosable: true,
+      });
       nav('/');
     } catch (err) {
       if (err.response.status === 401) {
-        setError('Incorrect username or password');
+        toast({
+          title: 'Oops!',
+          description: 'Incorrect username or password.',
+          status: 'error',
+          duration: '8000',
+          isClosable: true,
+        });
       } else {
-        setError(err.message);
+        toast({
+          title: 'Oops!',
+          description: `${err.message}`,
+          status: 'error',
+          duration: '8000',
+          isClosable: true,
+        });
       }
     }
   }
@@ -52,9 +72,9 @@ export default function Login() {
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+          <Heading fontSize={'4xl'}>Welcome Back!</Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
-            to access comments and other blog features!
+            Please sign in to access your account
           </Text>
         </Stack>
         <Box
@@ -63,36 +83,46 @@ export default function Login() {
           boxShadow={'lg'}
           p={8}
         >
-          <Stack as='form' onSubmit={handleSubmit} spacing={4}>
-            <FormControl id='username' isRequired>
-              <FormLabel>Username</FormLabel>
-              <Input type='text' onChange={handleFormChange} />
-            </FormControl>
-            <FormControl id='password' isRequired>
-              <FormLabel>Password</FormLabel>
-              <Input type='password' onChange={handleFormChange} />
-            </FormControl>
-            <Stack spacing={10}>
-              <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}
-              >
-                <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={4}>
+              <FormControl isRequired>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  name='username'
+                  type='text'
+                  onChange={handleFormChange}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  name='password'
+                  type='password'
+                  onChange={handleFormChange}
+                />
+              </FormControl>
+              <Stack spacing={10}>
+                <Stack
+                  direction={{ base: 'column', sm: 'row' }}
+                  align={'start'}
+                  justify={'space-between'}
+                >
+                  <Checkbox>Remember me</Checkbox>
+                  <Link color={'blue.400'}>Forgot password?</Link>
+                </Stack>
+                <Button
+                  type='submit'
+                  bg={'blue.500'}
+                  color='gray.200'
+                  _hover={{
+                    bg: 'blue.300',
+                  }}
+                >
+                  Sign in
+                </Button>
               </Stack>
-              {error && <Text>{error}</Text>}
-              <Button
-                bg={'blue.500'}
-                color='gray.200'
-                _hover={{
-                  bg: 'blue.300',
-                }}
-              >
-                Sign in
-              </Button>
             </Stack>
-          </Stack>
+          </form>
         </Box>
       </Stack>
     </Flex>
