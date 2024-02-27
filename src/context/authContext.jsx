@@ -11,11 +11,9 @@ function useAuth() {
 
   async function register(registerData) {
     try {
-      const userData = await registerUser(registerData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      setIsAuth(true);
+      await registerUser(registerData);
     } catch (err) {
-      console.log(`useAuth register: ${err}`);
+      console.log(`useAuth Register: ${err}`);
       throw err;
     }
   }
@@ -26,7 +24,7 @@ function useAuth() {
       localStorage.setItem('user', JSON.stringify(userData));
       setIsAuth(true);
     } catch (err) {
-      console.log(`useAuth login: ${err}`);
+      console.log(`useAuth Login: ${err}`);
       throw err;
     }
   }

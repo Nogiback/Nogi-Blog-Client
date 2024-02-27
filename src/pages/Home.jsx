@@ -36,7 +36,7 @@ export default function Home() {
       {blogPosts && (
         <Container
           minHeight='100vh'
-          maxWidth='100vw'
+          maxWidth='1600px'
           mx='auto'
           my='auto'
           p={{ base: 5, md: 10 }}

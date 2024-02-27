@@ -1,3 +1,6 @@
+import { useState, useContext } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import {
   Flex,
   Box,
@@ -11,13 +14,54 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { Link } from 'react-router-dom';
 
 export default function Register() {
+  const [formData, setFormData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const { register } = useContext(AuthContext);
+  const nav = useNavigate();
+  const toast = useToast();
+
+  function handleFormChange(e) {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      await register(formData);
+      toast({
+        title: 'Success!',
+        description: 'Account created. You can now login.',
+        status: 'success',
+        duration: '8000',
+        isClosable: true,
+      });
+      nav('/login');
+    } catch (err) {
+      if (err.response.status === 409) {
+        toast({
+          title: 'Oops!',
+          description: 'Username already exists.',
+          status: 'error',
+          duration: '8000',
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: 'Oops!',
+          description: `${err.response.data.errors[0].msg}`,
+          status: 'error',
+          duration: '8000',
+          isClosable: true,
+        });
+      }
+    }
+  }
 
   return (
     <Flex
@@ -41,65 +85,80 @@ export default function Register() {
           boxShadow={'lg'}
           p={8}
         >
-          <Stack spacing={4}>
-            <FormControl id='username' isRequired>
-              <FormLabel>Username</FormLabel>
-              <Input type='text' />
-            </FormControl>
-            <FormControl id='password' isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
-                <InputRightElement h={'full'}>
-                  <Button
-                    variant={'ghost'}
-                    onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <FormControl id='confirmpassword' isRequired>
-              <FormLabel>Confirm Password</FormLabel>
-              <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
-                <InputRightElement h={'full'}>
-                  <Button
-                    variant={'ghost'}
-                    onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText='Submitting'
-                size='lg'
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}
-              >
-                Sign up
-              </Button>
-            </Stack>
-            <Stack pt={6}>
-              <Text align={'center'}>
-                Already a user?{' '}
-                <Text as={Link} to='/login' color={'blue.400'}>
-                  Sign in here.
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={4}>
+              <FormControl id='username' isRequired>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  type='text'
+                  name='username'
+                  onChange={handleFormChange}
+                />
+              </FormControl>
+              <FormControl id='password' isRequired>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    name='password'
+                    onChange={handleFormChange}
+                  />
+                  <InputRightElement h={'full'}>
+                    <Button
+                      variant={'ghost'}
+                      onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              <FormControl id='confirmPassword' isRequired>
+                <FormLabel>Confirm Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    name='confirmPassword'
+                    onChange={handleFormChange}
+                  />
+                  <InputRightElement h={'full'}>
+                    <Button
+                      variant={'ghost'}
+                      onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              <Stack spacing={10} pt={2}>
+                <Button
+                  type='submit'
+                  loadingText='Submitting'
+                  size='lg'
+                  bg={'blue.500'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.300',
+                  }}
+                >
+                  Sign up
+                </Button>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={'center'}>
+                  Already a user?{' '}
+                  <Text as={Link} to='/login' color={'blue.400'}>
+                    Sign in here.
+                  </Text>
                 </Text>
-              </Text>
+              </Stack>
             </Stack>
-          </Stack>
+          </form>
         </Box>
       </Stack>
     </Flex>

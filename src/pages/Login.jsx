@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import {
@@ -32,7 +31,6 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      console.log(formData);
       await login(formData);
       toast({
         title: 'Success!',
@@ -74,7 +72,7 @@ export default function Login() {
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Welcome Back!</Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
-            Please sign in to access your account
+            Please sign in to access your account ✌️
           </Text>
         </Stack>
         <Box
@@ -120,6 +118,14 @@ export default function Login() {
                 >
                   Sign in
                 </Button>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={'center'}>
+                  Not a member?{' '}
+                  <Text as={Link} to='/register' color={'blue.400'}>
+                    Sign up here.
+                  </Text>
+                </Text>
               </Stack>
             </Stack>
           </form>

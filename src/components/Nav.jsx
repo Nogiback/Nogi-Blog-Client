@@ -137,7 +137,7 @@ export default function Nav() {
   );
 }
 
-const DesktopNav = () => {
+function DesktopNav() {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
 
@@ -163,9 +163,9 @@ const DesktopNav = () => {
       ))}
     </Stack>
   );
-};
+}
 
-const MobileNav = () => {
+function MobileNav() {
   return (
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
@@ -177,9 +177,9 @@ const MobileNav = () => {
       ))}
     </Stack>
   );
-};
+}
 
-const MobileNavItem = ({ label, href }) => {
+function MobileNavItem({ label, href }) {
   return (
     <Stack spacing={4}>
       <Box
@@ -201,7 +201,7 @@ const MobileNavItem = ({ label, href }) => {
       </Box>
     </Stack>
   );
-};
+}
 
 const NAV_ITEMS = [
   {
