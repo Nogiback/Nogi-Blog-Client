@@ -33,7 +33,7 @@ export default function BlogCard({ post }) {
             Delete
           </Badge>
         </Box> */}
-      <Link to={`/posts/${post._id}}`}>
+      <Link to={`/posts/${post._id}`}>
         <Box
           borderWidth='1px'
           shadow='md'

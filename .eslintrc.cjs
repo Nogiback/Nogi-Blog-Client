@@ -22,5 +22,6 @@ module.exports = {
     'no-undef': 'warn',
     'react/prop-types': 'off',
     'react/no-unknown-property': 'warn',
+    'react-hooks/rules-of-hooks': 'warn',
   },
 };
