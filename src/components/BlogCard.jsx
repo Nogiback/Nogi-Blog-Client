@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-import { DateTime } from 'luxon';
 import {
   Box,
   Badge,
@@ -8,30 +6,24 @@ import {
   useColorModeValue,
   Flex,
 } from '@chakra-ui/react';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { DateTime } from 'luxon';
+import { AuthContext } from '../context/AuthContext';
+import DeleteBlogPostButton from './DeleteBlogPostButton';
 
-export default function BlogCard({ post }) {
+export default function BlogCard({ post, deleteBlogPost }) {
+  const { isAuthor } = useContext(AuthContext);
+
   function formatDate(timestamp) {
     return DateTime.fromISO(timestamp).toLocaleString(DateTime.DATE_MED);
   }
 
   return (
     <Box position='relative'>
-      {/* <Box
-          fontSize='sm'
-          position='absolute'
-          right='5px'
-          margin='5px'
-          zIndex='1'
-        >
-          <Badge
-            rounded='full'
-            p='2px 8px'
-            colorScheme='red'
-            as='button'
-          >
-            Delete
-          </Badge>
-        </Box> */}
+      {isAuthor && (
+        <DeleteBlogPostButton deleteBlogPost={() => deleteBlogPost(post._id)} />
+      )}
       <Link to={`/posts/${post._id}`}>
         <Box
           borderWidth='1px'

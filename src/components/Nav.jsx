@@ -23,11 +23,11 @@ import { AuthContext } from '../context/AuthContext';
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isAuth, logout } = useContext(AuthContext);
+  const { isAuth, isAuthor, logout } = useContext(AuthContext);
   const toast = useToast();
 
   return (
-    <Box position='sticky' top='0' zIndex='1'>
+    <Box position='sticky' top='0' zIndex='3'>
       <Flex
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.900', 'gray.200')}
@@ -64,7 +64,7 @@ export default function Nav() {
           </Text>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={8}>
-            <DesktopNav />
+            <DesktopNav isAuthor={isAuthor} />
           </Flex>
         </Flex>
 
@@ -130,24 +130,40 @@ export default function Nav() {
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav isAuthor={isAuthor} />
       </Collapse>
     </Box>
   );
 }
 
-function DesktopNav() {
+function DesktopNav({ isAuthor }) {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
 
   return (
     <Stack direction={'row'} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
+      <Box>
+        <Link
+          as={NavLink}
+          p={2}
+          to={'/'}
+          fontSize={'sm'}
+          fontWeight={500}
+          color={linkColor}
+          _hover={{
+            textDecoration: 'none',
+            color: linkHoverColor,
+          }}
+        >
+          {'Home'}
+        </Link>
+      </Box>
+      {isAuthor && (
+        <Box>
           <Link
             as={NavLink}
             p={2}
-            to={navItem.href}
+            to={'/posts/new'}
             fontSize={'sm'}
             fontWeight={500}
             color={linkColor}
@@ -156,67 +172,53 @@ function DesktopNav() {
               color: linkHoverColor,
             }}
           >
-            {navItem.label}
+            {'Write Post'}
           </Link>
         </Box>
-      ))}
+      )}
     </Stack>
   );
 }
 
-function MobileNav() {
+function MobileNav({ isAuthor }) {
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const textColor = useColorModeValue('gray.600', 'gray.200');
   return (
-    <Stack
-      bg={useColorModeValue('white', 'gray.800')}
-      p={4}
-      display={{ md: 'none' }}
-    >
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
-    </Stack>
-  );
-}
-
-function MobileNavItem({ label, href }) {
-  return (
-    <Stack spacing={4}>
-      <Box
-        py={2}
-        as='a'
-        href={href ?? '#'}
-        justifyContent='space-between'
-        alignItems='center'
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}
+    <Stack bg={bgColor} p={4} display={{ md: 'none' }}>
+      <Stack spacing={4}>
+        <Box
+          py={2}
+          as='a'
+          href={'/'}
+          justifyContent='space-between'
+          alignItems='center'
+          _hover={{
+            textDecoration: 'none',
+          }}
         >
-          {label}
-        </Text>
-      </Box>
+          <Text fontWeight={600} color={textColor}>
+            Home
+          </Text>
+        </Box>
+      </Stack>
+      {isAuthor && (
+        <Stack spacing={4}>
+          <Box
+            py={2}
+            as='a'
+            href={'/posts/new'}
+            justifyContent='space-between'
+            alignItems='center'
+            _hover={{
+              textDecoration: 'none',
+            }}
+          >
+            <Text fontWeight={600} color={textColor}>
+              Write Post
+            </Text>
+          </Box>
+        </Stack>
+      )}
     </Stack>
   );
 }
-
-const NAV_ITEMS = [
-  {
-    label: 'Home',
-    href: '/',
-  },
-  {
-    label: 'Write',
-    href: '/posts/new',
-  },
-  {
-    label: 'Edit',
-    href: '#',
-  },
-  {
-    label: 'Delete',
-    href: '#',
-  },
-];

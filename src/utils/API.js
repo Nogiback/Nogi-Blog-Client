@@ -52,12 +52,11 @@ export async function addComment(postID, comment) {
 
 export async function deleteBlogPost(postID) {
   const user = getUserData();
-  const res = await axios.delete(`${API_URL}/posts/${postID}`, {
+  await axios.delete(`${API_URL}/posts/${postID}`, {
     headers: {
       Authorization: `Bearer ${user.token}`,
     },
   });
-  return res.data;
 }
 
 export async function deleteComment(postID, commentID) {

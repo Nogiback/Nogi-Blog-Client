@@ -6,12 +6,10 @@ import {
   Image,
   Flex,
   VStack,
-  Button,
   Heading,
   SimpleGrid,
   StackDivider,
   useColorModeValue,
-  border,
 } from '@chakra-ui/react';
 import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';

@@ -7,7 +7,9 @@ export const AuthContext = createContext();
 function useAuth() {
   const user = localStorage.getItem('user');
   const [isAuth, setIsAuth] = useState(user ? true : false);
-  const [isAuthor, setIsAuthor] = useState(false);
+  const [isAuthor, setIsAuthor] = useState(
+    user ? JSON.parse(user).user.isAuthor : false,
+  );
   const [currentUser, setCurrentUser] = useState(
     user ? JSON.parse(user).user._id : '',
   );

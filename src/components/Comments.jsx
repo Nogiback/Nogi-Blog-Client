@@ -1,4 +1,4 @@
-import { Box, Container } from '@chakra-ui/react';
+import { Container, useToast } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchComments, deleteComment } from '../utils/API';
@@ -10,6 +10,7 @@ export default function Comments() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { postID } = useParams();
+  const toast = useToast();
 
   useEffect(() => {
     getComments();
@@ -32,6 +33,13 @@ export default function Comments() {
     try {
       await deleteComment(postID, commentID);
       getComments();
+      toast({
+        title: 'Success!',
+        description: 'You have successfully deleted your comment.',
+        status: 'success',
+        duration: '8000',
+        isClosable: true,
+      });
     } catch (err) {
       console.log(err);
     }
