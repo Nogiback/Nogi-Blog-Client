@@ -1,7 +1,7 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchComments } from '../utils/API';
+import { fetchComments, deleteComment } from '../utils/API';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
 
@@ -12,25 +12,40 @@ export default function Comments() {
   const { postID } = useParams();
 
   useEffect(() => {
-    async function getComments() {
-      try {
-        const postComments = await fetchComments(postID);
-        setComments(postComments);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-        setComments(null);
-      } finally {
-        setIsLoading(false);
-      }
-    }
     getComments();
   }, []);
 
+  async function getComments() {
+    try {
+      const postComments = await fetchComments(postID);
+      setComments(postComments);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+      setComments(null);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleCommentDelete(commentID) {
+    try {
+      await deleteComment(postID, commentID);
+      getComments();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
-    <Box>
-      <CommentList comments={comments} isLoading={isLoading} error={error} />
+    <Container maxW='5xl'>
       <CommentForm comments={comments} setComments={setComments} />
-    </Box>
+      <CommentList
+        comments={comments}
+        isLoading={isLoading}
+        error={error}
+        deleteComment={handleCommentDelete}
+      />
+    </Container>
   );
 }

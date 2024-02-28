@@ -27,7 +27,7 @@ export default function Nav() {
   const toast = useToast();
 
   return (
-    <Box zIndex='1'>
+    <Box position='sticky' top='0' zIndex='1'>
       <Flex
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.900', 'gray.200')}

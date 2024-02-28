@@ -84,7 +84,7 @@ export default function CommentForm({ comments, setComments }) {
           </form>
         </Container>
       ) : (
-        <Container maxW='5xl' pt='8' pb='16'>
+        <Container maxW='5xl' py={{ base: '8', md: '16' }}>
           <Heading
             as='h3'
             textAlign='center'

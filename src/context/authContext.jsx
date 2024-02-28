@@ -8,6 +8,9 @@ function useAuth() {
   const user = localStorage.getItem('user');
   const [isAuth, setIsAuth] = useState(user ? true : false);
   const [isAuthor, setIsAuthor] = useState(false);
+  const [currentUser, setCurrentUser] = useState(
+    user ? JSON.parse(user).user._id : '',
+  );
   const nav = useNavigate();
 
   async function register(registerData) {
@@ -29,6 +32,11 @@ function useAuth() {
       } else {
         setIsAuthor(false);
       }
+      if (userData) {
+        setCurrentUser(userData.user._id);
+      } else {
+        setCurrentUser('');
+      }
     } catch (err) {
       console.log(`useAuth Login: ${err}`);
       throw err;
@@ -42,7 +50,7 @@ function useAuth() {
     nav('/');
   }
 
-  return { isAuth, isAuthor, register, login, logout };
+  return { isAuth, isAuthor, currentUser, register, login, logout };
 }
 
 export function AuthProvider({ children }) {
