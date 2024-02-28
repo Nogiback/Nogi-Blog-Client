@@ -1,4 +1,5 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
+import { DateTime } from 'luxon';
 import {
   Box,
   Badge,
@@ -7,8 +8,6 @@ import {
   useColorModeValue,
   Flex,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import { DateTime } from 'luxon';
 
 export default function BlogCard({ post }) {
   function formatDate(timestamp) {

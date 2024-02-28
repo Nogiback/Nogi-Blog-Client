@@ -1,5 +1,5 @@
+import { Box, SimpleGrid, Container, Text } from '@chakra-ui/react';
 import { useState, useEffect, useContext } from 'react';
-import { Box, SimpleGrid, Container } from '@chakra-ui/react';
 import Hero from '../components/Hero';
 import BlogCard from '../components/BlogCard';
 import Loading from '../components/Loading';
@@ -31,8 +31,8 @@ export default function Home() {
   return (
     <Box>
       <Hero />
-      {isLoading && <Loading />}
-      {error && <p>{error}</p>}
+      {isLoading && <Loading message='Loading Posts...' />}
+      {error && <Text>{error}</Text>}
       {blogPosts && (
         <Container
           minHeight='100vh'
