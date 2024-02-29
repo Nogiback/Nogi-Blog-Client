@@ -47,7 +47,11 @@ export default function Hero() {
               Welcome to
             </Text>
             <br />{' '}
-            <Text color={'blue.400'} as={'span'}>
+            <Text
+              bgGradient='linear(to-r, blue.300, blue.400, blue.500)'
+              bgClip='text'
+              as={'span'}
+            >
               The Nogi Blog
             </Text>{' '}
           </Heading>
