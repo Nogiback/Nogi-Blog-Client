@@ -7,22 +7,15 @@ export default function DeleteBlogPostButton({ deleteBlogPost }) {
 
   return (
     <>
-      <Box
-        fontSize='sm'
-        position='absolute'
-        right='5px'
-        top='5px'
-        margin='5px'
-        zIndex='1'
-      >
+      <Box fontSize='sm' margin='5px' zIndex='1'>
         <Button
           onClick={onOpen}
           size='sm'
           p='2px 8px'
           colorScheme='red'
-          as='button'
+          leftIcon={<DeleteIcon />}
         >
-          <DeleteIcon />
+          Delete Post
         </Button>
       </Box>
       <DeleteModal

@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Stack,
   Text,
@@ -10,22 +11,27 @@ import {
   SimpleGrid,
   StackDivider,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
+import { EditIcon } from '@chakra-ui/icons';
 import { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import he from 'he';
 import { DateTime } from 'luxon';
 import { AuthContext } from '../context/AuthContext';
-import { fetchBlogPost } from '../utils/API';
+import { fetchBlogPost, deleteBlogPost } from '../utils/API';
 import Loading from '../components/Loading';
 import Comments from '../components/Comments';
+import DeleteBlogPostButton from '../components/DeleteBlogPostButton';
 
 export default function BlogPost() {
   const [postDetails, setPostDetails] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { postID } = useParams();
   const { isAuth, isAuthor } = useContext(AuthContext);
+  const { postID } = useParams();
+  const nav = useNavigate();
+  const toast = useToast();
   const textColor = useColorModeValue('gray.900', 'gray.400');
   const boxColor = useColorModeValue('gray.100', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
@@ -50,6 +56,22 @@ export default function BlogPost() {
     return DateTime.fromISO(timestamp).toLocaleString(DateTime.DATETIME_MED);
   }
 
+  async function handleBlogPostDelete(postID) {
+    try {
+      await deleteBlogPost(postID);
+      nav('/');
+      toast({
+        title: 'Success!',
+        description: 'You have successfully deleted your blog post.',
+        status: 'success',
+        duration: '8000',
+        isClosable: true,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <Box bg={boxColor}>
       {isLoading && <Loading message='Loading Post...' />}
@@ -67,6 +89,7 @@ export default function BlogPost() {
                   rounded={'md'}
                   alt={'blog image'}
                   src={postDetails.image}
+                  fallbackSrc='https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
                   fit={'cover'}
                   align={'center'}
                   w={'100%'}
@@ -74,22 +97,45 @@ export default function BlogPost() {
                 />
               </Flex>
               <Stack spacing={{ base: 6, md: 10 }}>
-                <Box as={'header'}>
-                  <Heading
-                    lineHeight={1.1}
-                    fontWeight={600}
-                    fontSize={{ base: 'xl', sm: '3xl', lg: '4xl' }}
-                  >
-                    {he.decode(postDetails.title)}
-                  </Heading>
-                  <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-                    {postDetails.author.username}
-                  </Text>
-                  <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-                    {formatDate(postDetails.timestamp)}
-                  </Text>
-                </Box>
-
+                <Flex justifyContent={'space-between'}>
+                  <Box as={'header'}>
+                    <Heading
+                      lineHeight={1.1}
+                      fontWeight={600}
+                      fontSize={{ base: 'xl', sm: '3xl', lg: '4xl' }}
+                    >
+                      {he.decode(postDetails.title)}
+                    </Heading>
+                    <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
+                      {postDetails.author.username}
+                    </Text>
+                    <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
+                      {formatDate(postDetails.timestamp)}
+                    </Text>
+                  </Box>
+                  <Flex>
+                    {isAuthor && (
+                      <>
+                        <Box fontSize='sm' margin='5px' zIndex='1'>
+                          <Button
+                            size='sm'
+                            p='2px 8px'
+                            colorScheme='blue'
+                            leftIcon={<EditIcon />}
+                            onClick={() => nav(`/posts/${postID}/edit`)}
+                          >
+                            Edit Post
+                          </Button>
+                        </Box>
+                        <DeleteBlogPostButton
+                          deleteBlogPost={() =>
+                            handleBlogPostDelete(postDetails._id)
+                          }
+                        />
+                      </>
+                    )}
+                  </Flex>
+                </Flex>
                 <Stack
                   spacing={{ base: 4, sm: 6 }}
                   direction={'column'}
@@ -113,7 +159,6 @@ export default function BlogPost() {
           {postDetails.comments && <Comments />}
         </>
       )}
-      {/* CommentForm */}
     </Box>
   );
 }

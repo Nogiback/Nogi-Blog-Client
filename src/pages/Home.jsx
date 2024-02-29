@@ -4,14 +4,13 @@ import Hero from '../components/Hero';
 import BlogCard from '../components/BlogCard';
 import Loading from '../components/Loading';
 import { AuthContext } from '../context/AuthContext';
-import { deleteBlogPost, fetchAllBlogPosts } from '../utils/API';
+import { fetchAllBlogPosts } from '../utils/API';
 
 export default function Home() {
   const [blogPosts, setBlogPosts] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { isAuth } = useContext(AuthContext);
-  const toast = useToast();
 
   useEffect(() => {
     getBlogPosts();
@@ -30,22 +29,6 @@ export default function Home() {
     }
   }
 
-  async function handleBlogPostDelete(postID) {
-    try {
-      await deleteBlogPost(postID);
-      getBlogPosts();
-      toast({
-        title: 'Success!',
-        description: 'You have successfully deleted your blog post.',
-        status: 'success',
-        duration: '8000',
-        isClosable: true,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   return (
     <Box>
       <Hero />
@@ -61,13 +44,7 @@ export default function Home() {
         >
           <SimpleGrid columns={[1, 2, 3, 4]} spacing='8'>
             {blogPosts.map((post) => {
-              return (
-                <BlogCard
-                  key={post._id}
-                  post={post}
-                  deleteBlogPost={handleBlogPostDelete}
-                />
-              );
+              return <BlogCard key={post._id} post={post} />;
             })}
           </SimpleGrid>
         </Container>
