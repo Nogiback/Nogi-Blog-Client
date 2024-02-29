@@ -9,10 +9,11 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Nav />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -38,7 +39,7 @@ function App() {
         <Route path='/404' element={<NotFound />} />
         <Route path='*' element={<Navigate to='/404' replace />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 
