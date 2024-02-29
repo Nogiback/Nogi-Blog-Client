@@ -4,7 +4,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
   Stack,
   Button,
   Heading,
@@ -116,8 +115,8 @@ export default function Login() {
               </FormControl>
               <Button
                 type='submit'
-                bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
                 color='gray.200'
+                bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
                 _hover={{
                   bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
                 }}
