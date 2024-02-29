@@ -17,25 +17,28 @@ import { AuthContext } from '../context/AuthContext';
 import { addBlogPost } from '../utils/API';
 
 export default function NewBlogPost() {
-  const [formData, setFormData] = useState({
-    title: '',
-    image: '',
-    content: '',
-  });
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
+  const [content, setContent] = useState('');
   const { isAuth } = useContext(AuthContext);
   const borderColor = useColorModeValue('gray.300', 'gray.700');
   const nav = useNavigate();
   const toast = useToast();
 
-  function handleFormChange(e) {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  function handleTitleChange(e) {
+    setTitle(e.target.value);
+  }
+  function handleImageChange(e) {
+    setImage(e.target.value);
+  }
+  function handleContentChange(e) {
+    setContent(e.target.value);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const newPost = await addBlogPost(formData);
+      const newPost = await addBlogPost({ title, image, content });
       toast({
         title: 'Success!',
         description: 'New blog post added.',
@@ -74,8 +77,8 @@ export default function NewBlogPost() {
                   name='title'
                   borderWidth={'1px'}
                   borderColor={borderColor}
-                  onChange={handleFormChange}
-                  value={formData.title}
+                  onChange={handleTitleChange}
+                  value={title}
                 ></Input>
               </FormControl>
               <FormControl>
@@ -87,8 +90,8 @@ export default function NewBlogPost() {
                   name='image'
                   borderWidth={'1px'}
                   borderColor={borderColor}
-                  onChange={handleFormChange}
-                  value={formData.image}
+                  onChange={handleImageChange}
+                  value={image}
                 ></Input>
               </FormControl>
               <FormControl isRequired>
@@ -101,8 +104,8 @@ export default function NewBlogPost() {
                   minH={{ base: '200px', md: '400px' }}
                   resize='vertical'
                   name='content'
-                  onChange={handleFormChange}
-                  value={formData.content}
+                  onChange={handleContentChange}
+                  value={content}
                 ></Textarea>
               </FormControl>
               <Button
@@ -123,36 +126,3 @@ export default function NewBlogPost() {
     </>
   );
 }
-
-//   return (
-//     <Container
-//       minH='100vh'
-//       maxW='5xl'
-//       mx='auto'
-//       my='auto'
-//       p={{ base: 5, md: 10 }}
-//     >
-//       <Heading>New Blog Post</Heading>
-//       <Flex direction='column' gap='6'>
-//         <Textarea
-//           minH={{ base: '200px', md: '400px' }}
-//           size='lg'
-//           resize='vertical'
-//           isRequired
-//         ></Textarea>
-//         <Button
-//           type='submit'
-//           loadingText='Submitting'
-//           size='md'
-//           bg={'blue.500'}
-//           color={'white'}
-//           _hover={{
-//             bg: 'blue.300',
-//           }}
-//         >
-//           Submit
-//         </Button>
-//       </Flex>
-//     </Container>
-//   );
-// }

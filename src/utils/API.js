@@ -73,9 +73,9 @@ export async function deleteComment(postID, commentID) {
   return res.data;
 }
 
-export async function updateBlogPost(postID) {
+export async function updateBlogPost(postID, updatedPost) {
   const user = getUserData();
-  const res = await axios.put(`${API_URL}/posts/${postID}`, {
+  const res = await axios.put(`${API_URL}/posts/${postID}`, updatedPost, {
     headers: {
       Authorization: `Bearer ${user.token}`,
     },

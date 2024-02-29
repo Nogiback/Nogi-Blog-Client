@@ -141,15 +141,10 @@ export default function BlogPost() {
                   direction={'column'}
                   divider={<StackDivider borderColor={borderColor} />}
                 >
-                  <VStack spacing={{ base: 4, sm: 6 }}>
-                    {postDetails.content
-                      .split('\n')
-                      .filter((para) => para !== '')
-                      .map((para, i) => (
-                        <Text key={i} fontSize={'lg'}>
-                          {he.decode(postDetails.content)}
-                        </Text>
-                      ))}
+                  <VStack whiteSpace={'pre-wrap'} spacing={{ base: 4, sm: 6 }}>
+                    <Text fontSize={'lg'}>
+                      {he.decode(postDetails.content)}
+                    </Text>
                   </VStack>
                 </Stack>
               </Stack>

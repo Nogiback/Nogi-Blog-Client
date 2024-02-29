@@ -74,7 +74,12 @@ export default function Hero() {
                 Sign Up
               </Button>
             )}
-            <Button as='a' href='https://github.com/Nogiback' rounded={'full'}>
+            <Button
+              as='a'
+              href='https://github.com/Nogiback'
+              target='_blank'
+              rounded={'full'}
+            >
               <Icon as={FaGithub} h={4} w={4} />
               <Text as='span' ml={1}>
                 {' '}

@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import he from 'he';
 
 export default function BlogCard({ post }) {
   function formatDate(timestamp) {
@@ -58,7 +59,7 @@ export default function BlogCard({ post }) {
               color={useColorModeValue('gray.800', 'gray.200')}
               fontSize='sm'
             >
-              {post.content}
+              {he.decode(post.content)}
             </Text>
           </Box>
         </Box>

@@ -56,8 +56,8 @@ export default function Nav() {
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
           <Icon as={PiFlowerLotus} boxSize={6} mr='1' />
           <Text
+            fontWeight={'800'}
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'gray.200')}
           >
             Nogi Blog
