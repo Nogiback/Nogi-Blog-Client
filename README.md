@@ -10,11 +10,18 @@ This repository is for the client side of the blog application.
 
 ## Demo
 
-Live demo coming soon...
+[Check it out on Vercel!](https://nogi-blog.vercel.app/)
 
 ## Screenshots
 
-Coming soon...
+![Screenshot 2024-02-29 at 3 45 52 PM](https://github.com/Nogiback/Nogi-Blog-Client/assets/84485191/4def0b43-b230-40af-8b66-f18421447b26)
+
+![Screenshot 2024-02-29 at 3 46 12 PM](https://github.com/Nogiback/Nogi-Blog-Client/assets/84485191/34ad8a1d-26be-41fd-8384-cc2f9f9ad481)
+
+![Screenshot 2024-02-29 at 3 46 47 PM](https://github.com/Nogiback/Nogi-Blog-Client/assets/84485191/74baa6e0-8113-47b0-99dc-59da2ce135d4)
+
+![Screenshot 2024-02-29 at 3 47 16 PM](https://github.com/Nogiback/Nogi-Blog-Client/assets/84485191/cd5f60a3-ad06-4d36-ba9a-d3de8370f2e8)
+
 
 ## Built With
 
