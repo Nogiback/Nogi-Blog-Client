@@ -65,10 +65,10 @@ export default function Hero() {
                 as={Link}
                 to='/register'
                 rounded={'full'}
-                bg={'blue.500'}
+                bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
                 color={'white'}
                 _hover={{
-                  bg: 'blue.300',
+                  bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
                 }}
               >
                 Sign Up

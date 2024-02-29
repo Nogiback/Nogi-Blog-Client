@@ -27,7 +27,7 @@ export default function Nav() {
   const toast = useToast();
 
   return (
-    <Box position='sticky' top='0' zIndex='3'>
+    <Box position='fixed' top='0' w='full' zIndex='3'>
       <Flex
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.900', 'gray.200')}
@@ -92,9 +92,9 @@ export default function Nav() {
               fontSize={{ base: 'xs', md: 'sm' }}
               fontWeight={600}
               color={'white'}
-              bg={'blue.500'}
+              bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
               _hover={{
-                bg: 'blue.300',
+                bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
               }}
             >
               Logout
@@ -116,10 +116,10 @@ export default function Nav() {
                 fontSize={'sm'}
                 fontWeight={600}
                 color={'white'}
-                bg={'blue.500'}
+                bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
                 to={'/register'}
                 _hover={{
-                  bg: 'blue.300',
+                  bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
                 }}
               >
                 Sign Up

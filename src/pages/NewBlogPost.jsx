@@ -54,7 +54,7 @@ export default function NewBlogPost() {
   return (
     <>
       {isAuth && (
-        <Container h='100vh' maxW='5xl' p={{ base: 5, md: 8 }}>
+        <Container h='100vh' maxW='5xl' mt='60px' p={{ base: 5, md: 8 }}>
           <Flex justifyContent='start'>
             <Heading
               as='h3'

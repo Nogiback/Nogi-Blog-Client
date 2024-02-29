@@ -1,4 +1,4 @@
-import { Flex, Text, Stack, HStack, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Text, Stack, useColorModeValue } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import he from 'he';

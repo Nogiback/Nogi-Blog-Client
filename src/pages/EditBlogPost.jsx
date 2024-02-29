@@ -49,6 +49,7 @@ export default function EditBlogPost() {
       }
     }
     getBlogPost();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleTitleChange(e) {
@@ -86,7 +87,7 @@ export default function EditBlogPost() {
       {isLoading && <Loading message='Loading Post Details...' />}
       {error && <Text>{error}</Text>}
       {isAuth && (
-        <Container h='100vh' maxW='5xl' p={{ base: 5, md: 8 }}>
+        <Container h='100vh' maxW='5xl' mt='60px' p={{ base: 5, md: 8 }}>
           <Flex justifyContent='start'>
             <Heading
               as='h3'

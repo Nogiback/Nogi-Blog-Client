@@ -140,10 +140,10 @@ export default function Register() {
                   type='submit'
                   loadingText='Submitting'
                   size='lg'
-                  bg={'blue.500'}
-                  color={'white'}
+                  bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
+                  color='gray.200'
                   _hover={{
-                    bg: 'blue.300',
+                    bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
                   }}
                 >
                   Sign up
@@ -152,7 +152,14 @@ export default function Register() {
               <Stack pt={6}>
                 <Text align={'center'}>
                   Already a user?{' '}
-                  <Text as={Link} to='/login' color={'blue.400'}>
+                  <Text
+                    as={Link}
+                    to='/login'
+                    color={'blue.400'}
+                    _hover={{
+                      color: 'blue.300',
+                    }}
+                  >
                     Sign in here.
                   </Text>
                 </Text>

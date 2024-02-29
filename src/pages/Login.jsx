@@ -9,16 +9,19 @@ import {
   Button,
   Heading,
   Text,
-  Link,
+  InputGroup,
+  InputRightElement,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
   const [formData, setFormData] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useContext(AuthContext);
   const nav = useNavigate();
   const toast = useToast();
@@ -82,7 +85,7 @@ export default function Login() {
           p={8}
         >
           <form onSubmit={handleSubmit}>
-            <Stack spacing={4}>
+            <Stack spacing={6}>
               <FormControl isRequired>
                 <FormLabel>Username</FormLabel>
                 <Input
@@ -93,36 +96,45 @@ export default function Login() {
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Password</FormLabel>
-                <Input
-                  name='password'
-                  type='password'
-                  onChange={handleFormChange}
-                />
+                <InputGroup>
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    name='password'
+                    onChange={handleFormChange}
+                  />
+                  <InputRightElement h={'full'}>
+                    <Button
+                      variant={'ghost'}
+                      onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
               </FormControl>
-              <Stack spacing={10}>
-                <Stack
-                  direction={{ base: 'column', sm: 'row' }}
-                  align={'start'}
-                  justify={'space-between'}
-                >
-                  <Checkbox>Remember me</Checkbox>
-                  <Link color={'blue.400'}>Forgot password?</Link>
-                </Stack>
-                <Button
-                  type='submit'
-                  bg={'blue.500'}
-                  color='gray.200'
-                  _hover={{
-                    bg: 'blue.300',
-                  }}
-                >
-                  Sign in
-                </Button>
-              </Stack>
+              <Button
+                type='submit'
+                bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
+                color='gray.200'
+                _hover={{
+                  bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
+                }}
+              >
+                Sign in
+              </Button>
               <Stack pt={6}>
                 <Text align={'center'}>
                   Not a member?{' '}
-                  <Text as={Link} to='/register' color={'blue.400'}>
+                  <Text
+                    as={Link}
+                    to='/register'
+                    color={'blue.400'}
+                    _hover={{
+                      color: 'blue.300',
+                    }}
+                  >
                     Sign up here.
                   </Text>
                 </Text>

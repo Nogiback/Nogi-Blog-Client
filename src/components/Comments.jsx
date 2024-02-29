@@ -14,6 +14,7 @@ export default function Comments() {
 
   useEffect(() => {
     getComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getComments() {

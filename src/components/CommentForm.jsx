@@ -9,6 +9,7 @@ import {
   Stack,
   Link,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
@@ -20,6 +21,7 @@ export default function CommentForm({ comments, setComments }) {
   const { isAuth } = useContext(AuthContext);
   const { postID } = useParams();
   const borderColor = useColorModeValue('gray.300', 'gray.700');
+  const toast = useToast();
 
   function handleFormChange(e) {
     const { name, value } = e.target;
@@ -33,6 +35,13 @@ export default function CommentForm({ comments, setComments }) {
       const newComments = await fetchComments(postID);
       setComments(newComments);
       setComment({ comment: '' });
+      toast({
+        title: 'Success!',
+        description: 'New comment added.',
+        status: 'success',
+        duration: '8000',
+        isClosable: true,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -72,10 +81,10 @@ export default function CommentForm({ comments, setComments }) {
               <Button
                 w={24}
                 type='submit'
-                bg={'blue.500'}
                 color='gray.200'
+                bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
                 _hover={{
-                  bg: 'blue.300',
+                  bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
                 }}
               >
                 Submit

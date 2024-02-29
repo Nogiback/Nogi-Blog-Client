@@ -50,6 +50,7 @@ export default function BlogPost() {
       }
     }
     getBlogPost();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
 
   function formatDate(timestamp) {
@@ -73,7 +74,7 @@ export default function BlogPost() {
   }
 
   return (
-    <Box bg={boxColor}>
+    <Box bg={boxColor} mt='60px'>
       {isLoading && <Loading message='Loading Post...' />}
       {error && <Text>{error}</Text>}
       {postDetails && (
