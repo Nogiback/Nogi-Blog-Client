@@ -12,7 +12,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import { addComment, fetchComments } from '../utils/API';
 import { AuthContext } from '../context/AuthContext';
 
@@ -99,11 +99,11 @@ export default function CommentForm({ comments, setComments }) {
             textAlign='center'
             fontSize={{ base: 'lg', md: '2xl' }}
           >
-            <Link color='blue.400' href='/login'>
+            <Link as={NavLink} color='blue.400' to='/login'>
               Login
             </Link>{' '}
             or{' '}
-            <Link color='blue.400' href='/register'>
+            <Link as={NavLink} color='blue.400' to='/register'>
               create an account
             </Link>{' '}
             to join the conversation.
