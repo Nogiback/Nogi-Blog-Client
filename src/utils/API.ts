@@ -2,15 +2,15 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 
 function getUserData() {
-  return JSON.parse(localStorage.getItem('user'));
+  return JSON.parse(localStorage.getItem('user') || '');
 }
 
-export async function loginUser(loginData) {
+export async function loginUser(loginData: Object) {
   const res = await axios.post(`${API_URL}/login`, loginData);
   return res.data;
 }
 
-export async function registerUser(registerData) {
+export async function registerUser(registerData: Object) {
   const res = await axios.post(`${API_URL}/register`, registerData);
   return res.data;
 }
@@ -20,17 +20,17 @@ export async function fetchAllBlogPosts() {
   return res.data;
 }
 
-export async function fetchBlogPost(postID) {
+export async function fetchBlogPost(postID: string) {
   const res = await axios.get(`${API_URL}/posts/${postID}`);
   return res.data;
 }
 
-export async function fetchComments(postID) {
+export async function fetchComments(postID: string) {
   const res = await axios.get(`${API_URL}/posts/${postID}/comments`);
   return res.data;
 }
 
-export async function addBlogPost(postDetails) {
+export async function addBlogPost(postDetails: Object) {
   const user = getUserData();
   const res = await axios.post(`${API_URL}/posts`, postDetails, {
     headers: {
@@ -40,7 +40,7 @@ export async function addBlogPost(postDetails) {
   return res.data;
 }
 
-export async function addComment(postID, comment) {
+export async function addComment(postID: string, comment: Object) {
   const user = getUserData();
   const res = await axios.post(`${API_URL}/posts/${postID}/comments`, comment, {
     headers: {
@@ -50,7 +50,7 @@ export async function addComment(postID, comment) {
   return res.data;
 }
 
-export async function deleteBlogPost(postID) {
+export async function deleteBlogPost(postID: string) {
   const user = getUserData();
   const res = await axios.delete(`${API_URL}/posts/${postID}`, {
     headers: {
@@ -60,7 +60,7 @@ export async function deleteBlogPost(postID) {
   return res.data;
 }
 
-export async function deleteComment(postID, commentID) {
+export async function deleteComment(postID: string, commentID: string) {
   const user = getUserData();
   const res = await axios.delete(
     `${API_URL}/posts/${postID}/comments/${commentID}`,
@@ -73,7 +73,7 @@ export async function deleteComment(postID, commentID) {
   return res.data;
 }
 
-export async function updateBlogPost(postID, updatedPost) {
+export async function updateBlogPost(postID: string, updatedPost: Object) {
   const user = getUserData();
   const res = await axios.put(`${API_URL}/posts/${postID}`, updatedPost, {
     headers: {

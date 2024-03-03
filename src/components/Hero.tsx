@@ -14,8 +14,12 @@ import { Link } from 'react-router-dom';
 import { FaGithub } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
 
+interface Context {
+  isAuth: boolean;
+}
+
 export default function Hero() {
-  const { isAuth } = useContext(AuthContext);
+  const { isAuth } = useContext<Context>(AuthContext);
 
   return (
     <Stack minH='40vh' direction={{ base: 'column', md: 'row' }}>

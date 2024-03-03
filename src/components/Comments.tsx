@@ -9,7 +9,7 @@ export default function Comments() {
   const [comments, setComments] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { postID } = useParams();
+  const { postID } = useParams() as { postID: string };
   const toast = useToast();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function Comments() {
       const postComments = await fetchComments(postID);
       setComments(postComments);
       setError(null);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
       setComments(null);
     } finally {
@@ -38,7 +38,7 @@ export default function Comments() {
         title: 'Success!',
         description: 'You have successfully deleted your comment.',
         status: 'success',
-        duration: '8000',
+        duration: 8000,
         isClosable: true,
       });
     } catch (err) {

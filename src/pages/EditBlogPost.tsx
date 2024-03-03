@@ -2,6 +2,7 @@ import {
   Button,
   Container,
   Flex,
+  Text,
   Heading,
   Input,
   Textarea,
@@ -11,19 +12,49 @@ import {
   useToast,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import he from 'he';
 import { AuthContext } from '../context/AuthContext';
-import { addBlogPost } from '../utils/API';
+import { updateBlogPost, fetchBlogPost } from '../utils/API';
+import Loading from '../components/Loading';
 
-export default function NewBlogPost() {
+interface Context {
+  isAuth: boolean;
+}
+
+export default function EditBlogPost() {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
   const [content, setContent] = useState('');
-  const { isAuth } = useContext(AuthContext);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { isAuth } = useContext<Context>(AuthContext);
   const borderColor = useColorModeValue('gray.300', 'gray.700');
   const nav = useNavigate();
   const toast = useToast();
+  const { postID } = useParams() as { postID: string };
+
+  useEffect(() => {
+    async function getBlogPost() {
+      try {
+        const blogPost = await fetchBlogPost(postID);
+        setTitle(he.decode(blogPost.title));
+        setImage(he.decode(blogPost.image));
+        setContent(he.decode(blogPost.content));
+        setError(null);
+      } catch (err: any) {
+        setError(err.message);
+        setTitle('');
+        setImage('');
+        setContent('');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    getBlogPost();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleTitleChange(e) {
     setTitle(e.target.value);
@@ -38,21 +69,27 @@ export default function NewBlogPost() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const newPost = await addBlogPost({ title, image, content });
+      const updatedPost = await updateBlogPost(postID, {
+        title,
+        image,
+        content,
+      });
       toast({
         title: 'Success!',
-        description: 'New blog post added.',
+        description: 'Blog post successfully updated',
         status: 'success',
-        duration: '8000',
+        duration: 8000,
         isClosable: true,
       });
-      nav(`/posts/${newPost._id}`);
+      nav(`/posts/${updatedPost._id}`);
     } catch (err) {
       console.log(err);
     }
   }
   return (
     <>
+      {isLoading && <Loading message='Loading Post Details...' />}
+      {error && <Text>{error}</Text>}
       {isAuth && (
         <Container h='100vh' maxW='5xl' mt='60px' p={{ base: 5, md: 8 }}>
           <Flex justifyContent='start'>
@@ -63,7 +100,7 @@ export default function NewBlogPost() {
               textAlign='left'
               mb={{ base: '2', md: '6' }}
             >
-              New Blog Post
+              Update Blog Post
             </Heading>
           </Flex>
           <form onSubmit={handleSubmit}>
@@ -117,7 +154,7 @@ export default function NewBlogPost() {
                   bg: 'blue.300',
                 }}
               >
-                Submit
+                Update
               </Button>
             </Stack>
           </form>

@@ -4,59 +4,63 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   Stack,
   Button,
   Heading,
   Text,
-  InputGroup,
-  InputRightElement,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { useState, useContext } from 'react';
+import { useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
-export default function Login() {
+interface Context {
+  register: (formData: Object) => void;
+}
+
+export default function Register() {
   const [formData, setFormData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useContext(AuthContext);
+  const { register } = useContext<Context>(AuthContext);
   const nav = useNavigate();
   const toast = useToast();
 
-  function handleFormChange(e) {
+  function handleFormChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      await login(formData);
+      await register(formData);
       toast({
         title: 'Success!',
-        description: 'You have successfully logged in.',
+        description: 'Account created. You can now login.',
         status: 'success',
-        duration: '8000',
+        duration: 8000,
         isClosable: true,
       });
-      nav('/');
-    } catch (err) {
-      if (err.response.status === 401) {
+      nav('/login');
+    } catch (err: any) {
+      if (err.response.status === 409) {
         toast({
           title: 'Oops!',
-          description: 'Incorrect username or password.',
+          description: 'Username already exists.',
           status: 'error',
-          duration: '8000',
+          duration: 8000,
           isClosable: true,
         });
       } else {
         toast({
           title: 'Oops!',
-          description: `${err.message}`,
+          description: `${err.response.data.errors[0].msg}`,
           status: 'error',
-          duration: '8000',
+          duration: 8000,
           isClosable: true,
         });
       }
@@ -72,9 +76,11 @@ export default function Login() {
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Welcome Back!</Heading>
+          <Heading fontSize={'4xl'} textAlign={'center'}>
+            Sign up
+          </Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
-            Please sign in to access your account ✌️
+            to post comments and join the community! ✌️
           </Text>
         </Stack>
         <Box
@@ -84,16 +90,16 @@ export default function Login() {
           p={8}
         >
           <form onSubmit={handleSubmit}>
-            <Stack spacing={6}>
-              <FormControl isRequired>
+            <Stack spacing={4}>
+              <FormControl id='username' isRequired>
                 <FormLabel>Username</FormLabel>
                 <Input
-                  name='username'
                   type='text'
+                  name='username'
                   onChange={handleFormChange}
                 />
               </FormControl>
-              <FormControl isRequired>
+              <FormControl id='password' isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
                   <Input
@@ -113,28 +119,52 @@ export default function Login() {
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-              <Button
-                type='submit'
-                color='gray.200'
-                bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
-                _hover={{
-                  bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
-                }}
-              >
-                Sign in
-              </Button>
+              <FormControl id='confirmPassword' isRequired>
+                <FormLabel>Confirm Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    name='confirmPassword'
+                    onChange={handleFormChange}
+                  />
+                  <InputRightElement h={'full'}>
+                    <Button
+                      variant={'ghost'}
+                      onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              <Stack spacing={10} pt={2}>
+                <Button
+                  type='submit'
+                  loadingText='Submitting'
+                  size='lg'
+                  bgGradient='linear(to-r, blue.400, blue.500, blue.600)'
+                  color='gray.200'
+                  _hover={{
+                    bgGradient: 'linear(to-l, blue.300, blue.400, blue.500)',
+                  }}
+                >
+                  Sign up
+                </Button>
+              </Stack>
               <Stack pt={6}>
                 <Text align={'center'}>
-                  Not a member?{' '}
+                  Already a user?{' '}
                   <Text
                     as={Link}
-                    to='/register'
+                    to='/login'
                     color={'blue.400'}
                     _hover={{
                       color: 'blue.300',
                     }}
                   >
-                    Sign up here.
+                    Sign in here.
                   </Text>
                 </Text>
               </Stack>

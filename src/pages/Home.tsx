@@ -6,11 +6,15 @@ import Loading from '../components/Loading';
 import { AuthContext } from '../context/AuthContext';
 import { fetchAllBlogPosts } from '../utils/API';
 
+interface Context {
+  isAuth: boolean;
+}
+
 export default function Home() {
-  const [blogPosts, setBlogPosts] = useState(null);
+  const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { isAuth } = useContext(AuthContext);
+  const { isAuth } = useContext<Context>(AuthContext);
 
   useEffect(() => {
     getBlogPosts();
@@ -21,9 +25,9 @@ export default function Home() {
       const allBlogPosts = await fetchAllBlogPosts();
       setBlogPosts(allBlogPosts);
       setError(null);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
-      setBlogPosts(null);
+      setBlogPosts([]);
     } finally {
       setIsLoading(false);
     }

@@ -11,7 +11,7 @@ import { DateTime } from 'luxon';
 import he from 'he';
 
 export default function BlogCard({ post }) {
-  function formatDate(timestamp) {
+  function formatDate(timestamp: string) {
     return DateTime.fromISO(timestamp).toLocaleString(DateTime.DATE_MED);
   }
 
@@ -27,7 +27,7 @@ export default function BlogCard({ post }) {
         >
           <Image src={`${post.image}`} alt='Blog image' objectFit='cover' />
           <Box p={{ base: 4, lg: 6 }}>
-            <Box d='flex' alignItems='baseline' mb='2'>
+            <Box alignItems='baseline' mb='2'>
               <Box
                 fontWeight='semibold'
                 as='h2'

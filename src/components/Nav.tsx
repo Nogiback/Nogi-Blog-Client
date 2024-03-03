@@ -20,10 +20,16 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
+interface Context {
+  isAuth: boolean;
+  isAuthor: boolean;
+  logout: () => void;
+}
+
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isAuth, isAuthor, logout } = useContext(AuthContext);
+  const { isAuth, isAuthor, logout } = useContext<Context>(AuthContext);
   const toast = useToast();
 
   return (

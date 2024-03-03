@@ -24,12 +24,29 @@ import Loading from '../components/Loading';
 import Comments from '../components/Comments';
 import DeleteBlogPostButton from '../components/DeleteBlogPostButton';
 
+interface Context {
+  isAuth: boolean;
+  isAuthor: boolean;
+}
+
+interface PostInterface {
+  title: string;
+  image: string;
+  content: string;
+  timestamp: string;
+  author: {
+    username: string;
+  };
+  comments: string[];
+  _id: string;
+}
+
 export default function BlogPost() {
-  const [postDetails, setPostDetails] = useState(null);
+  const [postDetails, setPostDetails] = useState<PostInterface | null>(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { isAuth, isAuthor } = useContext(AuthContext);
-  const { postID } = useParams();
+  const { isAuth, isAuthor } = useContext<Context>(AuthContext);
+  const { postID } = useParams() as { postID: string };
   const nav = useNavigate();
   const toast = useToast();
   const textColor = useColorModeValue('gray.900', 'gray.400');
@@ -42,7 +59,7 @@ export default function BlogPost() {
         const blogPost = await fetchBlogPost(postID);
         setPostDetails(blogPost);
         setError(null);
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
         setPostDetails(null);
       } finally {
@@ -53,11 +70,11 @@ export default function BlogPost() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
 
-  function formatDate(timestamp) {
+  function formatDate(timestamp: string) {
     return DateTime.fromISO(timestamp).toLocaleString(DateTime.DATETIME_MED);
   }
 
-  async function handleBlogPostDelete(postID) {
+  async function handleBlogPostDelete(postID: string) {
     try {
       await deleteBlogPost(postID);
       nav('/');
@@ -65,7 +82,7 @@ export default function BlogPost() {
         title: 'Success!',
         description: 'You have successfully deleted your blog post.',
         status: 'success',
-        duration: '8000',
+        duration: 8000,
         isClosable: true,
       });
     } catch (err) {

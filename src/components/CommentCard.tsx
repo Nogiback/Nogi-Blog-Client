@@ -5,9 +5,14 @@ import he from 'he';
 import { DateTime } from 'luxon';
 import DeleteCommentButton from './DeleteCommentButton';
 
+interface Context {
+  isAuth: boolean;
+  currentUser: string;
+}
+
 export default function CommentCard({ comment, deleteComment }) {
   const textColor = useColorModeValue('gray.700', 'gray.400');
-  const { isAuth, currentUser } = useContext(AuthContext);
+  const { isAuth, currentUser } = useContext<Context>(AuthContext);
 
   function formatDate(timestamp) {
     return DateTime.fromISO(timestamp).toLocaleString(DateTime.DATETIME_MED);

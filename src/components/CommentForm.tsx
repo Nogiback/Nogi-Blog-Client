@@ -16,10 +16,14 @@ import { useParams, NavLink } from 'react-router-dom';
 import { addComment, fetchComments } from '../utils/API';
 import { AuthContext } from '../context/AuthContext';
 
+interface Context {
+  isAuth: boolean;
+}
+
 export default function CommentForm({ comments, setComments }) {
   const [comment, setComment] = useState({ comment: '' });
-  const { isAuth } = useContext(AuthContext);
-  const { postID } = useParams();
+  const { isAuth } = useContext<Context>(AuthContext);
+  const { postID } = useParams() as { postID: string };
   const borderColor = useColorModeValue('gray.300', 'gray.700');
   const toast = useToast();
 
@@ -39,7 +43,7 @@ export default function CommentForm({ comments, setComments }) {
         title: 'Success!',
         description: 'New comment added.',
         status: 'success',
-        duration: '8000',
+        duration: 8000,
         isClosable: true,
       });
     } catch (err) {
