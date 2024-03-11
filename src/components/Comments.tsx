@@ -8,7 +8,7 @@ import CommentForm from './CommentForm';
 export default function Comments() {
   const [comments, setComments] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const { postID } = useParams() as { postID: string };
   const toast = useToast();
 
@@ -22,8 +22,8 @@ export default function Comments() {
       const postComments = await fetchComments(postID);
       setComments(postComments);
       setError(null);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
       setComments(null);
     } finally {
       setIsLoading(false);

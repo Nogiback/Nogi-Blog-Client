@@ -43,7 +43,7 @@ interface PostInterface {
 
 export default function BlogPost() {
   const [postDetails, setPostDetails] = useState<PostInterface | null>(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { isAuth, isAuthor } = useContext<Context>(AuthContext);
   const { postID } = useParams() as { postID: string };
@@ -59,8 +59,8 @@ export default function BlogPost() {
         const blogPost = await fetchBlogPost(postID);
         setPostDetails(blogPost);
         setError(null);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        if (err instanceof Error) setError(err.message);
         setPostDetails(null);
       } finally {
         setIsLoading(false);

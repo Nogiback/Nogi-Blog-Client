@@ -10,10 +10,20 @@ interface Context {
   isAuth: boolean;
 }
 
+type BlogPost = {
+  _id: string;
+  title: string;
+  content: string;
+  author: object;
+  image: string;
+  comments: string[];
+  timestamp: Date;
+};
+
 export default function Home() {
-  const [blogPosts, setBlogPosts] = useState<any[]>([]);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const { isAuth } = useContext<Context>(AuthContext);
 
   useEffect(() => {
@@ -25,8 +35,8 @@ export default function Home() {
       const allBlogPosts = await fetchAllBlogPosts();
       setBlogPosts(allBlogPosts);
       setError(null);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
       setBlogPosts([]);
     } finally {
       setIsLoading(false);

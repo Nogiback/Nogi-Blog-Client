@@ -27,7 +27,7 @@ export default function EditBlogPost() {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
   const [content, setContent] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { isAuth } = useContext<Context>(AuthContext);
   const borderColor = useColorModeValue('gray.300', 'gray.700');
@@ -43,8 +43,8 @@ export default function EditBlogPost() {
         setImage(he.decode(blogPost.image));
         setContent(he.decode(blogPost.content));
         setError(null);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        if (err instanceof Error) setError(err.message);
         setTitle('');
         setImage('');
         setContent('');
